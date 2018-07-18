@@ -3,6 +3,7 @@
 from ansible.module_utils.basic import AnsibleModule
 from dellemc_unity_sdk import runner
 from dellemc_unity_sdk import supportive_functions
+
 from dellemc_unity_sdk import constants
 
 ANSIBLE_METADATA = {'metadata_version': '0.1',
@@ -95,12 +96,14 @@ template = {
                 constants.ACTION_TYPE: constants.ActionType.UPDATE,
                 constants.PARAMETER_TYPES: parameters_all.get("sync")
             }
+
     }
 }
 
 
 def main():
     arguments = supportive_functions.create_arguments_for_ansible_module(template)
+
     ansible_module = AnsibleModule(arguments, supports_check_mode=True)
     runner.run(ansible_module, template)
 
