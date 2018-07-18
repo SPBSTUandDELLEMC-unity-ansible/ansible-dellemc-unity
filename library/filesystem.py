@@ -10,14 +10,14 @@ ANSIBLE_METADATA = {'metadata_version': '0.1',
                     'supported_by': 'community'}
 parameters_all = {
     'create': {
-        'name': dict(required=True, type='str'),
+        'name': dict(required=True, type=str),
         'fsParameters': dict(required=True),
-        'description': dict(type='str'),
-        'replicationParameters': dict(type='dict'),
-        'snapScheduleParameters': dict(type='dict'),
-        'cifsFsParameters': dict(type='dict'),
-        'nfsShareCreate': dict(type='array'),
-        'cifsShareCreate': dict(type='array')
+        'description': dict(type=str),
+        'replicationParameters': dict(type=dict),
+        'snapScheduleParameters': dict(type=dict),
+        'cifsFsParameters': dict(type=dict),
+        'nfsShareCreate': dict(type=list),
+        'cifsShareCreate': dict(type=list)
     }
 }
 

@@ -10,9 +10,9 @@ ANSIBLE_METADATA = {'metadata_version': '0.1',
                     'supported_by': 'community'}
 parameters_all = {
     'createFilesystem': {
-        'name': dict(required=True, type='str'),
+        'name': dict(required=True, type=str),
         'fsParameters': dict(required=True),
-        'description': dict(type='str')
+        'description': dict(type=str)
     }
 }
 

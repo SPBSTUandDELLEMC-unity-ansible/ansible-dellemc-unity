@@ -11,9 +11,9 @@ ANSIBLE_METADATA = {'metadata_version': '0.1',
 
 parameters_all = {
     'create': {
-        'snap': dict(required=True, type='dict'),
-        'path': dict(required=True, type='str'),
-        'name': dict(required=True, type='str')
+        'snap': dict(required=True, type=dict),
+        'path': dict(required=True, type=str),
+        'name': dict(required=True, type=str)
 
     }
 }

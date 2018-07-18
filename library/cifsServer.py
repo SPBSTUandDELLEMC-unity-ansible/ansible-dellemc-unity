@@ -11,9 +11,9 @@ ANSIBLE_METADATA = {'metadata_version': '0.1',
 
 parameters_all = {
     'create': {
-        'nasServer': dict(required=True, type='dict'),
-        'name': dict(type='str'),
-        'description': dict(type='str')
+        'nasServer': dict(required=True, type=dict),
+        'name': dict(type=str),
+        'description': dict(type=str)
     }
 }
 
