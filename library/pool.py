@@ -41,14 +41,14 @@ template = {
             },
         'modifyVSA':
             {
-                constants.ACTION_TYPE_KEY: constants.ActionType.UPDATE,
-                constants.PARAMETER_TYPES_KEY: parameters_all.get('modifyVSA'),
+                constants.ACTION_TYPE: constants.ActionType.UPDATE,
+                constants.PARAMETER_TYPES: parameters_all.get('modifyVSA'),
                 constants.DO_ACTION: 'modify'
             },
         'delete':
             {
-                constants.ACTION_TYPE_KEY: constants.ActionType.UPDATE,
-                constants.PARAMETER_TYPES_KEY: parameters_all.get('delete')
+                constants.ACTION_TYPE: constants.ActionType.UPDATE,
+                constants.PARAMETER_TYPES: parameters_all.get('delete')
             }
     }
 }
@@ -56,7 +56,6 @@ template = {
 
 def main():
     arguments = supportive_functions.create_arguments_for_ansible_module(template)
-
     ansible_module = AnsibleModule(arguments, supports_check_mode=True)
     runner.run(ansible_module, template)
 
