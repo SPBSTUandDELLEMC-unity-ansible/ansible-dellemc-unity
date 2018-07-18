@@ -12,9 +12,9 @@ ANSIBLE_METADATA = {'metadata_version': '0.1',
 parameters_all = {
     "create":
         {
-            "srcResourceId": dict(requiered=True, type=str),
-            "dstResourceId": dict(requiered=True, type=str),
-            "maxTimeOutOfSync": dict(requiered=True, type=int),
+            "srcResourceId": dict(required=True, type=str),
+            "dstResourceId": dict(required=True, type=str),
+            "maxTimeOutOfSync": dict(required=True, type=int),
             "remoteSystem": dict(type=object),
             "srcSPAInterface": dict(type=object),
             "srcSPBInterface": dict(type=object),
