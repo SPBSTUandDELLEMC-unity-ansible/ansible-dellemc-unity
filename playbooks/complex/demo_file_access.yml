@@ -1,12 +1,14 @@
 ---
 - hosts: localhost
+  vars_files:
+    - ../../group_vars/all
   tasks:
     - name: get disks
       virtualDisk:
        login:
-          unityIP: "{{ host }}"
-          username: "{{ username }}"
-          password: "{{ password }}"
+          unityIP: "{{ unity_host }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
        get:
          fields: id
       register: get_disks_results
@@ -15,9 +17,9 @@
     - name: Create pool
       pool:
         login:
-          unityIP: "{{ host }}"
-          username: "{{ username }}"
-          password: "{{ password }}"
+          unityIP: "{{ unity_host }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
         createVSA:
           name: test_pool
           addPoolUnitParameters: ["poolUnit": "{{ get_disks_results['output']['get'][0] }}", "poolUnit": "{{ get_disks_results['output']['get'][1] }}"]
@@ -28,24 +30,24 @@
 
     - name: create Nas Server
       nasServer:
-         login:
-           unityIP: "{{ host }}"
-           username: "{{ username }}"
-           password: "{{ password }}"
-         create:
-           name: nasServerFromPlaybook
-           homeSP: {id: 'spa'}
-           pool:  {id: "{{ create_pool_results['output']['createVSA']['id'] }}"}
-           isMultiProtocolEnabled: false
+        login:
+          unityIP: "{{ unity_host }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        create:
+          name: nasServerFromPlaybook
+          homeSP: {id: 'spa'}
+          pool:  {id: "{{ create_pool_results['output']['createVSA']['id'] }}"}
+          isMultiProtocolEnabled: false
       register: create_nas_server_results
     - debug: var=create_nas_server_results['output']
 
     - name: nfsServer creation
       nfsServer:
         login:
-          unityIP: "{{ host }}"
-          username: "{{ username }}"
-          password: "{{ password }}"
+          unityIP: "{{ unity_host }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
         create:
           nasServer: {id: "{{ create_nas_server_results['output']['create']['id'] }}"}
       register: create_nfs_server_results
@@ -54,9 +56,9 @@
     - name: create fileInterface
       fileInterface:
         login:
-          unityIP: "{{ host }}"
-          username: "{{ username }}"
-          password: "{{ password }}"
+          unityIP: "{{ unity_host }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
         create:
           nasServer: {id: "{{ create_nas_server_results['output']['create']['id'] }}"}
           ipPort: {id: "spa_eth0"}
@@ -67,9 +69,9 @@
     - name: create file system
       filesystem:
         login:
-          unityIP: "{{ host }}"
-          username: "{{ username }}"
-          password: "{{ password }}"
+          unityIP: "{{ unity_host }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
         create:
           name: file_system_created_by_playbook
           fsParameters:
@@ -83,9 +85,9 @@
     - name: create nfsShare
       nfsShare:
         login:
-          unityIP: "{{ host }}"
-          username: "{{ username }}"
-          password: "{{ password }}"
+          unityIP: "{{ unity_host }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
         create:
           storageResource: {'id': "{{ file_system_create_results['output']['create']['storageResource']['id'] }}"}
           name: nfsShareTestPlaybook

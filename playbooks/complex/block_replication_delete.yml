@@ -1,0 +1,4 @@
+---
+- hosts: localhost
+  tasks:
+    - debug: msg="clean_block_replication done"

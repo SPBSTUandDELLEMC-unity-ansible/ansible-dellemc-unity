@@ -1,0 +1,4 @@
+---
+- hosts: localhost
+  tasks:
+    - debug: msg="host_readOnly_delete_all done"
