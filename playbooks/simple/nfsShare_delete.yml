@@ -3,7 +3,7 @@
   vars_files:
     - ../../group_vars/all
   tasks:
-    - name: Create filesystem
+    - name: get nfsShare's id
       commonGetPost:
         login:
           unityIP: "{{ unity_host }}"
@@ -11,17 +11,31 @@
           password: "{{ unity_password }}"
         get:
           resource_type: nfsShare
-          fields: id
+          fields: id, filesystem
       register: result1
     - debug: var=result1['output']['get'][0]['id']
-    - name: Create nfsShare
+
+    - name: get storageResource id
+      commonGetPost:
+        login:
+          unityIP: "{{ unity_host }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        get:
+          resource_type: filesystem
+          fields: storageResource
+      register: result2
+    - debug: var=result2['output']['get'][0]['storageResource']['id']
+
+
+    - name: Delete nfsShare
       nfsShare:
         login:
           unityIP: "{{ unity_host }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         delete:
-          storageResourceId: res_4
-          id: "{{ result1['output']['get'][0]['id'] }}"
+          storageResource: {'id': "{{ result2['output']['get'][0]['storageResource']['id'] }}"}
+          nfsShare: {'id': "{{ result1['output']['get'][0]['id'] }}"} 
       register: result2
-    - debug: var=result2
+    - debug: var=result2['output']
