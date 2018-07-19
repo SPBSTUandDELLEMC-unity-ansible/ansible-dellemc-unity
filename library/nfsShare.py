@@ -47,10 +47,10 @@ def create(params, unity):
 
 def modify(params, unity):
     storageId = params.get('storageResource').get('id')
-    nfsShareId = params.get('nfsShare').get('id')
+    nfsShareId = params.get('nfsShare')
     # if not validator.check_parameters(params, parameters_all.get('modify')):
     # supportive_functions.raise_exception_about_results(parameters_all.get('modify'))
-    request_params = {'nfsShare': {'id': nfsShareId}}
+    request_params = {'nfsShare': nfsShareId}
     optional_params = dict()
     for parameter in parameters_all.get('modify').get('optional'):
         if params.get(parameter):
@@ -64,8 +64,8 @@ def modify(params, unity):
 
 def delete(params, unity):
     storageId = params.get('storageResource').get('id')
-    nfsShareId = params.get('nfsShare').get('id')
-    request_params = [{'nfsShare': {'id': nfsShareId}}]
+    nfsShareId = params.get('nfsShare')
+    request_params = [{'nfsShare': nfsShareId}]
     request_params_wrapper = {'id': storageId, 'nfsShareDelete': request_params}
     return unity.update('modifyFilesystem', 'storageResource', request_params_wrapper)
 
