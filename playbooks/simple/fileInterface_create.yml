@@ -3,6 +3,18 @@
   vars_files:
     - ../../group_vars/all
   tasks:
+    - name: get nasServer id
+      commonGetPost:
+        login:
+          unityIP: "{{ unity_host }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        get:
+          resource_type: nasServer
+          fields: id
+      register: result1
+    - debug: var=result1['output']
+
     - name: Create fileInterface
       fileInterface:
         login:
@@ -10,8 +22,8 @@
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         create:
-          nasServer: {id: "{{ nasServer_id }}"}
+          nasServer: {id: "{{ result1['output']['get'][0]['id'] }}"}
           ipPort: {id: "{{ fileInterface_ipPort }}"}
           ipAddress: "{{ fileInterface_ipAddress }}"
-      register: result1
-    - debug: var=result1['output']
+      register: result2
+    - debug: var=result2['output']

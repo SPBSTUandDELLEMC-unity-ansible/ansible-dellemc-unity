@@ -4,6 +4,16 @@
     - ../../group_vars/all
   tasks:
     - name: Get fileInterface_id
+      commonGetPost:
+        login:
+          unityIP: "{{ unity_host }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        get:
+          resource_type: fileInterface
+          fields: id  
+      register: result1
+    - debug: var=result1['output']
 
     - name: Delete fileInterface
       fileInterface:
@@ -12,6 +22,6 @@
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         delete:
-          id: "{{ fileInterface_id }}"
+          id: "{{ result1['output']['get'][0]['id'] }}"
       register: result1
     - debug: var=result1['output']
