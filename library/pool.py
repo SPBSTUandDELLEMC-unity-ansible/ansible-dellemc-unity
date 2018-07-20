@@ -16,7 +16,8 @@ parameters_all = {
                      'poolSpaceHarvestLowThreshold', 'snapSpaceHarvestHighThreshold',
                      'snapSpaceHarvestLowThreshold', 'isHarvestEnabled',
                      'isSnapHarvestEnabled', 'isFASTCacheEnabled', 'isFASTVpScheduleEnabled',
-                     'type'}},
+                     'type'}
+    },
     'modifyVSA': {
         'required': {'id'},
         'optional': {'name', 'description', 'alertThreshold',
@@ -26,25 +27,49 @@ parameters_all = {
                      'isHarvestEnabled', 'isSnapHarvestEnabled', 'isFASTCacheEnabled',
                      'isFASTVpScheduleEnabled', 'addPoolUnitParameters'}
     },
+    'createHardware': {
+        'required': {'name', 'addRaidGroupParameters'},
+        'optional': {'description', 'alertThreshold', 'poolSpaceHarvestHighThreshold',
+                     'poolSpaceHarvestLowThreshold', 'snapSpaceHarvestHighThreshold',
+                     'snapSpaceHarvestLowThreshold', 'isHarvestEnabled',
+                     'isSnapHarvestEnabled', 'isFASTCacheEnabled', 'isFASTVpScheduleEnabled',
+                     'type'}
+    },
+    'modifyHardware': {
+        'required': {'id'},
+        'optional': {'name', 'description', 'alertThreshold',
+                     'poolSpaceHarvestHighThreshold',
+                     'poolSpaceHarvestLowThreshold',
+                     'snapSpaceHarvestHighThreshold', 'snapSpaceHarvestLowThreshold',
+                     'isHarvestEnabled', 'isSnapHarvestEnabled', 'isFASTCacheEnabled',
+                     'isFASTVpScheduleEnabled', 'addRaidGroupParameters'}
+    },
     'delete': {'required': {'id'}}
 }
-
 
 template = {
     constants.REST_OBJECT: 'pool',
     constants.ACTIONS: {
-        'createVSA':
-            {
-                constants.ACTION_TYPE: constants.ActionType.UPDATE,
-                constants.PARAMETER_TYPES: parameters_all.get('createVSA'),
-                constants.DO_ACTION: 'create'
-            },
-        'modifyVSA':
-            {
-                constants.ACTION_TYPE: constants.ActionType.UPDATE,
-                constants.PARAMETER_TYPES: parameters_all.get('modifyVSA'),
-                constants.DO_ACTION: 'modify'
-            },
+        'createVSA': {
+            constants.ACTION_TYPE: constants.ActionType.UPDATE,
+            constants.PARAMETER_TYPES: parameters_all.get('createVSA'),
+            constants.DO_ACTION: 'create'
+        },
+        'modifyVSA': {
+            constants.ACTION_TYPE: constants.ActionType.UPDATE,
+            constants.PARAMETER_TYPES: parameters_all.get('modifyVSA'),
+            constants.DO_ACTION: 'modify'
+        },
+        'createHardware': {
+            constants.ACTION_TYPE: constants.ActionType.UPDATE,
+            constants.PARAMETER_TYPES: parameters_all.get('createHardware'),
+            constants.DO_ACTION: 'create'
+        },
+        'modifyHardware': {
+            constants.ACTION_TYPE: constants.ActionType.UPDATE,
+            constants.PARAMETER_TYPES: parameters_all.get('modifyHardware'),
+            constants.DO_ACTION: 'modify'
+        },
         'delete':
             {
                 constants.ACTION_TYPE: constants.ActionType.UPDATE,
