@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  vars_files:
+    - ../../group_vars/all
+  tasks:
+    - name: create replicationInterface
+      replicationInterface:
+        login:
+          unityIP: "{{ host }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        create:
+          sp: {'id': 'spa'}
+          ipPort: {'id': 'spa_eth0'}
+          ipAddress: "{{ replicationInterface_ip }}"
+      register: get_storageId218
+    - debug: var=get_storageId218['output']

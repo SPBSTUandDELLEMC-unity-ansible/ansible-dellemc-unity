@@ -1,0 +1,28 @@
+---
+- hosts: localhost
+  vars_files:
+    - ../../group_vars/all
+  tasks:
+    - name: get replicationInterface id
+      commonGetPost:
+        login:
+          unityIP: "{{ unity_host }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        get:
+          resource_type: replicationInterface
+          fields: id
+      register: result1
+    - debug: var=result1['output']
+
+
+    - name: delete replicationInterface
+      replicationInterface:
+        login:
+          unityIP: "{{ host }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        delete:
+          id: result1['output']['get'][0]['id']
+      register: delete_repl
+    - debug: var=delete_repl['output']
