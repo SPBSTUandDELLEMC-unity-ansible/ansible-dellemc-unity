@@ -30,17 +30,31 @@
       register: get_storageId218
     - debug: var=get_storageId218['output']
 
-    - name: get remoteSystem
-      commonGetPost:
+    - name: create replicationInterface
+      replicationInterface:
         login:
           unityIP: "{{ host }}"
           username: "{{ username }}"
           password: "{{ password }}"
-        get:
-          resource_type: remoteSystem
-          fields: id
-      register: get_remoteSysId218
-    - debug: var=get_remoteSysId218['output']
+        create:
+          sp: {id: 'spa'}
+          ipPort: {id: "spa_eth0"}
+          ipAddress: "{{ replicationInterface_ip_217 }}"
+      register: get_replicationInterface_217
+    - debug: var=get_replicationInterface_217['output']
+
+    - name: create replicationInterface
+      replicationInterface:
+        login:
+          unityIP: "{{ host2 }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        create:
+          sp: {id: 'spa'}
+          ipPort: {id: "spa_eth0"}
+          ipAddress: "{{ replicationInterface_ip_218 }}"
+      register: get_replicationInterface_218
+    - debug: var=get_replicationInterface_218['output']
 
 
     - name: create remoteSystem
@@ -57,6 +71,8 @@
           remotePassword: "{{ password }}"
       register: get_remoteSysId218
     - debug: var=get_remoteSysId218['output']
+
+
 
     - name: create replicationSession
       replicationSession:
