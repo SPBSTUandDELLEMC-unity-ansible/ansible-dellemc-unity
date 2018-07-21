@@ -1,0 +1,73 @@
+---
+- hosts: localhost
+  vars_files:
+    - ../../group_vars/all
+  tasks:
+    - name: get lun storageResource id on 217
+      commonGetPost:
+        login:
+          unityIP: "{{ host }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        get:
+          resource_type: lun
+          filter: name lk "LUN (DEMO)"
+          fields: storageResource
+      register: get_storageId217
+    - debug: var=get_storageId217['output']
+
+    - name: get lun storageResource id on 218
+      commonGetPost:
+        login:
+          unityIP: "{{ host2 }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        get:
+          resource_type: lun
+
+          filter: name lk "LUN remote (DEMO)"
+          fields: storageResource
+      register: get_storageId218
+    - debug: var=get_storageId218['output']
+
+    - name: get remoteSystem
+      commonGetPost:
+        login:
+          unityIP: "{{ host }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        get:
+          resource_type: remoteSystem
+          fields: id
+      register: get_remoteSysId218
+    - debug: var=get_remoteSysId218['output']
+
+
+    - name: create remoteSystem
+      remoteSystem:
+        login:
+          unityIP: "{{ host }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        create:
+          managementAddress: "{{ host2 }}"
+          localUsername: "{{ username }}"
+          localPassword: "{{ password }}"
+          remoteUsername: "{{ username }}"
+          remotePassword: "{{ password }}"
+      register: get_remoteSysId218
+    - debug: var=get_remoteSysId218['output']
+
+    - name: create replicationSession
+      replicationSession:
+        login:
+          unityIP: "{{ host }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        create:
+          remoteSystem: { id: "{{ get_remoteSysId218['output']['create']['id'] }}" }
+          srcResourceId: "{{ get_storageId217['output']['get'][0]['storageResource']['id'] }}"
+          dstResourceId: "{{ get_storageId218['output']['get'][0]['storageResource']['id'] }}"
+          maxTimeOutOfSync: 60
+      register: file_system_create_results
+    - debug: var=file_system_create_results['output']
