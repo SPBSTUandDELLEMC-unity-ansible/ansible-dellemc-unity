@@ -4,7 +4,9 @@
 
 ## EMC Unity Configuration and Management
 
-- Requires Ansible 2.2 or newer
+#### Requires:
+* Ansible 2.2 or newer
+* Python module [dellemc-unity-sdk](https://github.com/ansible-dellemc-unity/dellemc-unity-sdk)
 
 This package of Ansible modules provides access to configure and manage EMC Unity storage appliance.
 
