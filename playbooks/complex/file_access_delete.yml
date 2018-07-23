@@ -1,6 +1,6 @@
 ---
-- import_playbook: ../rest_objects/nfsShare/nfsShare_delete_all.yml
-- import_playbook: ../rest_objects/filesystem/filesystem_delete_all.yml
-- import_playbook: ../rest_objects/fileInterface/fileInterface_delete_all.yml
-- import_playbook: ../rest_objects/nfsServer/nfsServer_delete_all.yml
-- import_playbook: ../rest_objects/nasServer/nasServer_delete_all.yml
+- import_playbook: ../rest_objects/nfsShare/delete_all.yml
+- import_playbook: ../rest_objects/filesystem/delete_all.yml
+- import_playbook: ../rest_objects/fileInterface/delete_all.yml
+- import_playbook: ../rest_objects/nfsServer/delete_all.yml
+- import_playbook: ../rest_objects/nasServer/delete_all.yml
