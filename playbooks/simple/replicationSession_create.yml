@@ -27,32 +27,6 @@
       register: r2
     - debug: var=r2['output']['get'][0]['id']
 
-    - name: get filesystem's storageResource id on 217
-      commonGetPost:
-        login:
-          unityIP: "{{ host }}"
-          username: "{{ username }}"
-          password: "{{ password }}"
-        get:
-          resource_type: filesystem
-          #id: "{{ file_system_create_results217['output']['create']['id'] }}" 
-          fields: storageResource
-      register: get_storageId217
-    - debug: var=get_storageId217['output']
-
-    - name: get filesystem's storageResource id on 218
-      commonGetPost:
-        login:
-          unityIP: "{{ host2 }}"
-          username: "{{ username }}"
-          password: "{{ password }}"
-        get:
-          resource_type: filesystem
-          #id: "{{ file_system_create_results218['output']['create']['id'] }}" 
-          fields: storageResource
-      register: get_storageId218
-    - debug: var=get_storageId218['output']
-
     - name: Get remoteSystem id
       commonGetPost:
         login:
@@ -63,7 +37,7 @@
           resource_type: remoteSystem
           fields: id
       register: rs
-    - debug: var=rs['output']['get'][0]['id']
+    - debug: var=rs['output']['get'][1]['id']
 
     - name: create replicationSession
       replicationSession:
@@ -74,9 +48,7 @@
         create:
           remoteSystem: {'id': "{{ rs['output']['get'][1]['id'] }}"}
           srcResourceId: "{{ r1['output']['get'][0]['id'] }}"
-          #"{{ get_storageId217['output']['get'][0]['storageResource']['id'] }}"
           dstResourceId: "{{ r2['output']['get'][0]['id'] }}"
-          #"{{ get_storageId218['output']['get'][0]['storageResource']['id'] }}"
           maxTimeOutOfSync: 10
           #max time to wait before sync
       register: file_system_create_results
