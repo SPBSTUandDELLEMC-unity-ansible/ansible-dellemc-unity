@@ -1,0 +1,27 @@
+---
+- hosts: localhost
+  vars_files:
+    - ../../group_vars/all
+  tasks:
+    - name: get remotesystem id
+      commonGetPost:
+        login:
+          unityIP: "{{ unity_host }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        get:
+          resource_type: remoteSystem
+          fields: id
+      register: result1
+    - debug: var=result1['output']
+
+    - name: delete remoteSystem
+      remoteSystem:
+        login:
+          unityIP: "{{ host }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        delete:
+          id: "{{ result1['output']['get'][1]['id'] }}"
+      register: delete_remoteSystem
+    - debug: var=delete_remoteSystem['output']

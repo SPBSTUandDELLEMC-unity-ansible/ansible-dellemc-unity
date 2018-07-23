@@ -1,0 +1,71 @@
+---
+- hosts: localhost
+  vars_files:
+    - ../../group_vars/all
+  tasks:
+    - name: get filesystem's storageResource id on 217
+      commonGetPost:
+        login:
+          unityIP: "{{ host }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        get:
+          resource_type: filesystem
+          #id: "{{ file_system_create_results217['output']['create']['id'] }}" 
+          fields: storageResource
+      register: get_storageId217
+    - debug: var=get_storageId217['output']
+
+    - name: get filesystem's storageResource id on 218
+      commonGetPost:
+        login:
+          unityIP: "{{ host2 }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        get:
+          resource_type: filesystem
+          #id: "{{ file_system_create_results218['output']['create']['id'] }}" 
+          fields: storageResource
+      register: get_storageId218
+    - debug: var=get_storageId218['output']
+
+    - name: create remoteSystem
+      remoteSystem:
+        login:
+          unityIP: "{{ host }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        create:
+          managementAddress: "{{ host2 }}"
+          #remoteUsername: "{{ username }}"
+          #remotePassword: "{{ password }}"
+      register: get_storageId218
+    - debug: var=get_storageId218['output']
+
+
+    - name: create replicationInterface
+      replicationInterface:
+        login:
+          unityIP: "{{ host }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        create:
+          sp: {id: 'spa'}
+          ipPort: {id: "spa_eth0"}
+          ipAddress: "{{ replicationInterface_ip }}"
+      register: get_storageId218
+    - debug: var=get_storageId218['output']
+
+    - name: create replicationSession
+      replicationSession:
+        login:
+          unityIP: "{{ host }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        create:
+          srcResourceId: "{{ get_storageId217['output']['get'][0]['storageResource']['id'] }}"
+          dstResourceId: "{{ get_storageId218['output']['get'][0]['storageResource']['id'] }}"
+          maxTimeOutOfSync: 3
+          #max time to wait before sync
+      register: file_system_create_results
+    - debug: var=file_system_create_results['output']

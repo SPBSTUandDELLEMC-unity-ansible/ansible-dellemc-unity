@@ -58,8 +58,8 @@
           username: "{{ username }}"
           password: "{{ password }}"
         create:
-          nasServer: {id: "{{ create_nas_server_results['output']['create']['id'] }}"}
-          ipPort: {id: "spa_eth0"}
+          nasServer: {'id': "{{ create_nas_server_results['output']['create']['id'] }}"}
+          ipPort: {'id': "spa_eth0"}
           ipAddress: "{{ fileInterface_ip }}"
       register: file_interface_create_results
     - debug: var=file_interface_create_results['output']

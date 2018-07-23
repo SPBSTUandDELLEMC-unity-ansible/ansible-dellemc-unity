@@ -33,6 +33,6 @@ iscsiPortal_netmask: 255.255.255.0
 
 fileInterface_ipPort: spa_eth0
 
-fileInterface_ipAddress: 192.168.70.222
+fileInterface_ipAddress: 192.168.70.223
 
 replicationInterface_ip: 192.168.70.228

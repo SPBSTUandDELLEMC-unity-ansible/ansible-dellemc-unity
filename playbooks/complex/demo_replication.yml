@@ -1,0 +1,205 @@
+---
+- hosts: localhost
+  tasks:
+    #pool and nasServer on 217
+    - name: get disks
+      virtualDisk:
+       login:
+          unityIP: "{{ host }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+       get:
+         fields: id
+      register: get_disks_results
+    - debug: var=get_disks_results['output']['get']
+
+    - name: Create pool
+      pool:
+        login:
+          unityIP: "{{ host }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        createVSA:
+          name: pool217
+          addPoolUnitParameters: ["poolUnit": "{{ get_disks_results['output']['get'][0] }}", "poolUnit": "{{ get_disks_results['output']['get'][1] }}"]
+      register: create_pool_results
+    - debug: var=create_pool_results['output']
+
+    - name: create Nas Server
+      nasServer:
+         login:
+           unityIP: "{{ host }}"
+           username: "{{ username }}"
+           password: "{{ password }}"
+         create:
+           name: nasServer217
+           homeSP: {id: 'spa'}
+           pool:  {id: "{{ create_pool_results['output']['createVSA']['id'] }}"}
+           isMultiProtocolEnabled: false
+      register: create_nas_server_results
+    - debug: var=create_nas_server_results['output']
+
+    - name: create fileInterface
+      fileInterface:
+        login:
+          unityIP: "{{ host }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        create:
+          nasServer: {id: "{{ create_nas_server_results['output']['create']['id'] }}"}
+          ipPort: {id: "spa_eth0"}
+          ipAddress: "{{ fileInterface_ip }}"
+      register: file_interface_create_results
+    - debug: var=file_interface_create_results['output']
+
+    - name: create file system
+      filesystem:
+        login:
+          unityIP: "{{ host }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        create:
+          name: file_system217
+          fsParameters:
+            pool:  {id: "{{ create_pool_results['output']['createVSA']['id'] }}"}
+            nasServer: {id: "{{ create_nas_server_results['output']['create']['id'] }}"}
+            size: 5368709120 # size 5 GB
+            supportedProtocols: 0
+      register: file_system_create_results217
+    - debug: var=file_system_create_results217['output']
+
+    - name: create nfsShare
+      nfsShare:
+        login:
+          unityIP: "{{ host }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        create:
+          storageResource: {'id': "{{ file_system_create_results217['output']['create']['storageResource']['id'] }}"}
+          name: nfsShare217
+          path: '/'
+      register: create_nfs_share_results
+    - debug: var=create_nfs_share_results['output']
+
+  #pool and nasServer on 218
+    - name: get disks
+      virtualDisk:
+       login:
+          unityIP: "{{ host2 }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+       get:
+         fields: id
+      register: get_disks_results
+    - debug: var=get_disks_results['output']['get']
+
+    - name: Create pool
+      pool:
+        login:
+          unityIP: "{{ host2 }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        createVSA:
+          name: pool218
+          addPoolUnitParameters: ["poolUnit": "{{ get_disks_results['output']['get'][0] }}", "poolUnit": "{{ get_disks_results['output']['get'][1] }}"]
+      register: create_pool_results
+    - debug: var=create_pool_results['output']
+
+    - name: create Nas Server
+      nasServer:
+         login:
+           unityIP: "{{ host2 }}"
+           username: "{{ username }}"
+           password: "{{ password }}"
+         create:
+           name: nasServer218
+           homeSP: {id: 'spa'}
+           pool:  {id: "{{ create_pool_results['output']['createVSA']['id'] }}"}
+           isMultiProtocolEnabled: false
+           isReplicationDestination: true
+      register: create_nas_server_results
+    - debug: var=create_nas_server_results['output']
+
+    - name: create file system
+      filesystem:
+        login:
+          unityIP: "{{ host2 }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        create:
+          name: file_system218
+          fsParameters:
+            pool:  {id: "{{ create_pool_results['output']['createVSA']['id'] }}"}
+            nasServer: {id: "{{ create_nas_server_results['output']['create']['id'] }}"}
+            size: 1368709120 # size 1 GB
+            supportedProtocols: 0
+            isReplicationDestination: true
+      register: file_system_create_results218
+    - debug: var=file_system_create_results218['output']
+    #creating replication 
+
+    - name: get filesystem's storageResource id on 217
+      commonGetPost:
+        login:
+          unityIP: "{{ host }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        get:
+          resource_type: filesystem
+          id: "{{ file_system_create_results217['output']['create']['id'] }}" 
+          fields: storageResource
+      register: get_storageId217
+    - debug: var=get_storageId217['output']
+
+    - name: get filesystem's storageResource id on 218
+      commonGetPost:
+        login:
+          unityIP: "{{ host2 }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        get:
+          resource_type: filesystem
+          id: "{{ file_system_create_results218['output']['create']['id'] }}" 
+          fields: storageResource
+      register: get_storageId218
+    - debug: var=get_storageId218['output']
+
+    - name: create remoteSystem
+      remoteSystem:
+        login:
+          unityIP: "{{ host }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        create:
+          managementAddress: "{{ host2 }}"
+          remoteUsername: "{{ username }}"
+          remotePassword: "{{ password }}"
+      register: get_storageId218
+    - debug: var=get_storageId218['output']
+
+    - name: create replicationInterface
+      replicationInterface:
+        login:
+          unityIP: "{{ host }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        create:
+          sp: {id: 'spa'}
+          ipPort: {id: "spa_eth0"}
+          ipAddress: "{{ replicationInterface_ip }}"
+      register: get_storageId218
+    - debug: var=get_storageId218['output']
+
+    - name: create replicationSession
+      replicationSession:
+        login:
+          unityIP: "{{ host }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+        create:
+          srcResourceId: "{{ get_storageId217['output']['get'][0]['storageResource']['id'] }}"
+          dstResourceId: "{{ get_storageId218['output']['get'][0]['storageResource']['id'] }}"
+          maxTimeOutOfSync: 5
+          #max time(minutes) to wait before sync
+      register: file_system_create_results
+    - debug: var=file_system_create_results['output']

@@ -18,9 +18,9 @@
     - name: Create nfsShare
       nfsShare:
         login:
-          unityIP: 192.168.70.217
-          username: admin
-          password: Password123!
+          unityIP: "{{ unity_host }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
         create:
           storageResource: {'id': "{{ result['output']['get'][0]['storageResource']['id'] }}"}
           name: nfsShareTestPlaybook
