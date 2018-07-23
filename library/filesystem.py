@@ -9,21 +9,19 @@ ANSIBLE_METADATA = {'metadata_version': '0.1',
                     'status': ['unstable'],
                     'supported_by': 'community'}
 parameters_all = {
-    'create':
-        {
-            'name': dict(required=True, type=str),
-            'fsParameters': dict(required=True),
-            'description': dict(type=str),
-            'replicationParameters': dict(type=dict),
-            'snapScheduleParameters': dict(type=dict),
-            'cifsFsParameters': dict(type=dict),
-            'nfsShareCreate': dict(type=list),
-            'cifsShareCreate': dict(type=list)
-        },
-    'delete':
-        {
-            "id":dict(required=True, type=str)
-        }
+    'create': {
+        'name': dict(required=True, type=str),
+        'fsParameters': dict(required=True),
+        'description': dict(type=str),
+        'replicationParameters': dict(type=dict),
+        'snapScheduleParameters': dict(type=dict),
+        'cifsFsParameters': dict(type=dict),
+        'nfsShareCreate': dict(type=list),
+        'cifsShareCreate': dict(type=list)
+    },
+    'delete': {
+        "id": dict(required=True, type=str)
+    }
 }
 
 template = {

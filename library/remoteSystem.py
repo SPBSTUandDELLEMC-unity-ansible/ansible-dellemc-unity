@@ -13,10 +13,10 @@ parameters_all = {
     "create":
         {
             "managementAddress": dict(required=True, type=str),
-            "localUsername": dict(type=str),
-            "localPassword": dict(type=str),
-            "remoteUsername": dict(type=str),
-            "remotePassword": dict(type=str),
+            "localUsername": dict(required=True, type=str), #bug
+            "localPassword": dict(required=True, type=str), #bug
+            "remoteUsername": dict(required=True, type=str), #bug
+            "remotePassword": dict(required=True, type=str), #bug
             "connectionType": dict(type=int)
         },
     "modify":
