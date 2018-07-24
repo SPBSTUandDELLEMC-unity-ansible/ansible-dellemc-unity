@@ -19,12 +19,17 @@ parameters_all = {
 }
 template = {
     constants.REST_OBJECT: 'cifsShare',
-    constants.ACTIONS: {}
+    constants.ACTIONS: {
+        'create': {
+            constants.ACTION_TYPE: constants.ActionType.UPDATE,
+            constants.PARAMETER_TYPES: parameters_all.get('create')
+        }
+    }
 }
 
 
 def main():
-    arguments = supportive_functions.create_arguments_for_ansible_module([])
+    arguments = supportive_functions.create_arguments_for_ansible_module(template)
     ansible_module = AnsibleModule(arguments, supports_check_mode=True)
     runner.run(ansible_module, template)
 

@@ -13,10 +13,14 @@ parameters_all = {
     "create":
         {
             "managementAddress": dict(required=True, type=str),
-            "localUsername": dict(required=True, type=str), #bug
-            "localPassword": dict(required=True, type=str), #bug
-            "remoteUsername": dict(required=True, type=str), #bug
-            "remotePassword": dict(required=True, type=str), #bug
+            "localUsername": dict(required=True, type=str), #according to REST API parameter is optional, but really
+            # it's required
+            "localPassword": dict(required=True, type=str), #according to REST API parameter is optional, but really
+            # it's required
+            "remoteUsername": dict(required=True, type=str), #according to REST API parameter is optional, but really
+            # it's required
+            "remotePassword": dict(required=True, type=str), #according to REST API parameter is optional, but really
+            # it's required
             "connectionType": dict(type=int)
         },
     "modify":
