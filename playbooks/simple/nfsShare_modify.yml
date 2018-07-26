@@ -6,7 +6,7 @@
     - name: Get nfsShare id
       commonGetPost:
         login:
-          host: "{{ unity_host }}"
+          unityIP: "{{ unity_host }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         get:
@@ -18,7 +18,7 @@
     - name: Get storageResource id
       commonGetPost:
         login:
-          host: "{{ unity_host }}"
+          unityIP: "{{ unity_host }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         get:
@@ -32,12 +32,12 @@
     - name: Modify nfsShare
       nfsShare:
         login:
-          host: "{{ unity_host }}"
+          unityIP: "{{ unity_host }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         modify:
           storageResource: {'id': "{{ result1['output']['get']['storageResource']['id'] }}"}
           nfsShare: {'id': "{{ result['output']['get'][0]['id'] }}" }
-          description: 'nfsShareModifiedPlaybook'
+          defaultAccess: 2 #read-write
       register: result2
     - debug: var=result2['output']

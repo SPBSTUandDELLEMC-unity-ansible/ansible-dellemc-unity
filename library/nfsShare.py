@@ -22,7 +22,7 @@ parameters_all = {
     },
     'delete': {
         'required': {'storageResource', 'nfsShare'}
-    }
+    }#as we manage nfsShare through storageResource we need both storage and share ids
 }
 
 
@@ -30,8 +30,9 @@ def create(params, unity):
     storageId = params.get('storageResource').get('id')
     name = params.get('name')
     path = params.get('path')
-    # if not validator.check_parameters(params, parameters_all.get('create')):
-    # supportive_functions.raise_exception_about_parameters(parameters_all.get('create'))
+    check_result = validator.check_parameters(params, parameters_all.get('create'))
+    if not check_result[constants.VALIDATOR_RESULT]:
+        supportive_functions.raise_exception_about_parameters(check_result[constants.VALIDATOR_MESSAGE])
     request_params = {'name': name, 'path': path}
     optional_params = dict()
     for parameter in parameters_all.get('create').get('optional'):
@@ -48,8 +49,9 @@ def create(params, unity):
 def modify(params, unity):
     storageId = params.get('storageResource').get('id')
     nfsShareId = params.get('nfsShare')
-    # if not validator.check_parameters(params, parameters_all.get('modify')):
-    # supportive_functions.raise_exception_about_results(parameters_all.get('modify'))
+    check_result = validator.check_parameters(params, parameters_all.get('modify'))
+    if not check_result[constants.VALIDATOR_RESULT]:
+        supportive_functions.raise_exception_about_parameters(check_result[constants.VALIDATOR_MESSAGE])
     request_params = {'nfsShare': nfsShareId}
     optional_params = dict()
     for parameter in parameters_all.get('modify').get('optional'):
@@ -65,6 +67,9 @@ def modify(params, unity):
 def delete(params, unity):
     storageId = params.get('storageResource').get('id')
     nfsShareId = params.get('nfsShare')
+    check_result = validator.check_parameters(params, parameters_all.get('delete'))
+    if not check_result[constants.VALIDATOR_RESULT]:
+        supportive_functions.raise_exception_about_parameters(check_result[constants.VALIDATOR_MESSAGE])
     request_params = [{'nfsShare': nfsShareId}]
     request_params_wrapper = {'id': storageId, 'nfsShareDelete': request_params}
     return unity.update('modifyFilesystem', 'storageResource', request_params_wrapper)
@@ -81,17 +86,6 @@ template = {
             {constants.EXECUTED_BY: delete}
     }
 }
-
-"""TODO: create nfsShare through a snapshot
-template = {
-    constants.REST_OBJECT_KEY: 'nfsShare',
-    constants.ACTIONS_KEY: {
-        'create': 
-        {constants.ACTION_TYPE_KEY:constants.ActionType.UPDATE, 
-            constants.PARAMETER_TYPES_KEY:parameters_all.get('create')}
-    }
-}
-"""
 
 
 def main():

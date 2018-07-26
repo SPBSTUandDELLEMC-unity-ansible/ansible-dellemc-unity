@@ -23,9 +23,10 @@
           password: "{{ unity_password }}"
         get:
           resource_type: filesystem
+          id: "{{ result1['output']['get'][0]['filesystem']['id'] }}"
           fields: storageResource
       register: result2
-    - debug: var=result2['output']['get'][0]['storageResource']['id']
+    - debug: var=result2['output']['get']['storageResource']['id']
 
 
     - name: Delete nfsShare
@@ -35,7 +36,7 @@
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         delete:
-          storageResource: {'id': "{{ result2['output']['get'][0]['storageResource']['id'] }}"}
+          storageResource: {'id': "{{ result2['output']['get']['storageResource']['id'] }}"}
           nfsShare: {'id': "{{ result1['output']['get'][0]['id'] }}"} 
-      register: result2
-    - debug: var=result2['output']
+      register: result3
+    - debug: var=result3['output']
