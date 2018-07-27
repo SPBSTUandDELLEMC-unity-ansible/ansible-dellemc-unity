@@ -1,17 +1,17 @@
 ---
-- hosts: localhost
+- host: localhost
   vars_files:
     - ../../group_vars/all
   tasks:
     - name: create remoteSystem
       remoteSystem:
         login:
-          unityIP: "{{ host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ username }}"
           password: "{{ password }}"
         create:
           #all of the further parameters are required. DellEMC documentation lies:)
-          managementAddress: "{{ host2 }}"
+          managementAddress: "{{ unity_ip_dest }}"
           remoteUsername: "{{ username }}"
           remotePassword: "{{ password }}"
           localUsername: "{{ username }}"

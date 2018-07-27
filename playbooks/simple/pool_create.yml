@@ -1,12 +1,12 @@
 ---
-- hosts: localhost
+- host: localhost
   vars_files:
     - ../../group_vars/all
   tasks:
     - name: Create pool
       pool:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         createVSA:

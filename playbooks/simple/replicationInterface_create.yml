@@ -1,12 +1,12 @@
 ---
-- hosts: localhost
+- host: localhost
   vars_files:
     - ../../group_vars/all
   tasks:
     - name: create replicationInterface
       replicationInterface:
         login:
-          unityIP: "{{ host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ username }}"
           password: "{{ password }}"
         create:

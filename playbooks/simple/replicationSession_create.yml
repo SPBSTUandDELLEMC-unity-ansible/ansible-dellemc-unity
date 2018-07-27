@@ -1,12 +1,12 @@
 ---
-- hosts: localhost
+- host: localhost
   vars_files:
     - ../../group_vars/all
   tasks:
-    - name: Get nasServer id
+    - name: Get nasServer id source
       commonGetPost:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         get:
@@ -15,10 +15,10 @@
       register: r1
     - debug: var=r1['output']['get'][0]['id']
 
-    - name: Get nasServer id
+    - name: Get nasServer id dest
       commonGetPost:
         login:
-          unityIP: "{{ unity_host2 }}"
+          unityIP: "{{ unity_ip_dest }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         get:
@@ -30,7 +30,7 @@
     - name: Get remoteSystem id
       commonGetPost:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         get:
@@ -42,7 +42,7 @@
     - name: create replicationSession
       replicationSession:
         login:
-          unityIP: "{{ host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ username }}"
           password: "{{ password }}"
         create:
@@ -51,5 +51,5 @@
           dstResourceId: "{{ r2['output']['get'][0]['id'] }}"
           maxTimeOutOfSync: 10
           #max time to wait before sync
-      register: file_system_create_results
-    - debug: var=file_system_create_results['output']
+      register: nasServer_replicationSession
+    - debug: var=nasServer_replicationSession['output']

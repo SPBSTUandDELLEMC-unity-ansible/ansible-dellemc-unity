@@ -1,12 +1,12 @@
 ---
-- hosts: localhost
+- host: localhost
   vars_files:
     - ../../group_vars/all
   tasks:
     - name: get replicationInterface id
       commonGetPost:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         get:
@@ -19,7 +19,7 @@
     - name: delete replicationInterface
       replicationInterface:
         login:
-          unityIP: "{{ host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ username }}"
           password: "{{ password }}"
         delete:

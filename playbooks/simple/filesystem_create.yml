@@ -1,12 +1,12 @@
 ---
-- hosts: localhost
+- host: localhost
   vars_files:
     - ../../group_vars/all
   tasks:
     - name: get pool id
       commonGetPost:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         get:
@@ -18,7 +18,7 @@
     - name: get nasServer id
       commonGetPost:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         get:
@@ -31,7 +31,7 @@
     - name: Create file system
       filesystem:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         create:
@@ -42,5 +42,5 @@
             size: 3368709120 # size 3 GB
             supportedProtocols: 0
           #replicationParameters: {'isReplicationDestination': true}
-      register: file_system_create_results
-    - debug: var=file_system_create_results['output']
+      register: create_file_system
+    - debug: var=create_file_system['output']
