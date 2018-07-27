@@ -1,5 +1,5 @@
 ---
-- host: localhost
+- hosts: localhost
   vars_files:
     - ../../group_vars/all
   tasks:
@@ -7,8 +7,8 @@
       replicationInterface:
         login:
           unityIP: "{{ unity_ip_source }}"
-          username: "{{ username }}"
-          password: "{{ password }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
         create:
           sp: {'id': 'spa'}
           ipPort: {'id': 'spa_eth0'}

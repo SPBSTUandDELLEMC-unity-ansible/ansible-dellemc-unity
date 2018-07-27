@@ -6,7 +6,7 @@ unity_ip_dest: 192.168.70.218
 default_password: Password123#
 
 unity_username: admin
-unity_password: Password123! 	
+unity_password: Password123!
 
 ######## REST-object default names ########
 

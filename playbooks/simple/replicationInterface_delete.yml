@@ -1,5 +1,5 @@
 ---
-- host: localhost
+- hosts: localhost
   vars_files:
     - ../../group_vars/all
   tasks:
@@ -20,8 +20,8 @@
       replicationInterface:
         login:
           unityIP: "{{ unity_ip_source }}"
-          username: "{{ username }}"
-          password: "{{ password }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
         delete:
           id: result1['output']['get'][0]['id']
       register: delete_repl

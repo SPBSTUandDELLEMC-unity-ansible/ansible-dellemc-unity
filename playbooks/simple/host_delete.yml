@@ -1,5 +1,5 @@
 ---
-- host: localhost
+- hosts: localhost
   vars_files:
     - ../../group_vars/all
   tasks:
