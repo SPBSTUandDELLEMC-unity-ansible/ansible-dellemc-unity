@@ -9,6 +9,9 @@ from dellemc_unity_sdk import validator
 ANSIBLE_METADATA = {'metadata_version': '0.1',
                     'status': ['unstable'],
                     'supported_by': 'community'}
+
+#as we manage nfsShare through storageResource 
+#we need both storage and share ids in modify and delete methods
 parameters_all = {
     'create': {
         'required': {'storageResource', 'name', 'path'},
@@ -22,7 +25,7 @@ parameters_all = {
     },
     'delete': {
         'required': {'storageResource', 'nfsShare'}
-    }#as we manage nfsShare through storageResource we need both storage and share ids
+    }
 }
 
 
