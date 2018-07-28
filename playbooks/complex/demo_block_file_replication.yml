@@ -7,8 +7,8 @@
       replicationInterface:
         login:
           unityIP: "{{ unity_ip_source }}"
-          username: "{{ username }}"
-          password: "{{ password }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
         create:
           sp: {id: 'spa'}
           ipPort: {id: "spa_eth0"}
@@ -21,8 +21,8 @@
       replicationInterface:
         login:
           unityIP: "{{ unity_ip_dest }}"
-          username: "{{ username }}"
-          password: "{{ password }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
         create:
           sp: {id: 'spa'}
           ipPort: {id: "spa_eth0"}
@@ -34,7 +34,7 @@
     - name: get lun storageResource id source
       commonGetPost:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         get:
@@ -61,15 +61,15 @@
       remoteSystem:
         login:
           unityIP: "{{ unity_ip_source }}"
-          username: "{{ username }}"
-          password: "{{ password }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
         create:
           #all of the further parameters are required. DellEMC documentation lies:)
           managementAddress: "{{ unity_ip_dest }}"
-          remoteUsername: "{{ username }}"
-          remotePassword: "{{ password }}"
-          localUsername: "{{ username }}"
-          localPassword: "{{ password }}"
+          remoteUsername: "{{ unity_username }}"
+          remotePassword: "{{ unity_password }}"
+          localUsername: "{{ unity_username }}"
+          localPassword: "{{ unity_password }}"
       register: create_remoteSystem
     - debug: var=create_remoteSystem['output']
 
@@ -101,7 +101,7 @@
     - name: create replicationSession for nasServer
       replicationSession:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         create:
@@ -115,7 +115,7 @@
     - name: create replicationSession for lun
       replicationSession:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         create:
@@ -158,8 +158,8 @@
       replicationSession:
         login:
           unityIP: "{{ unity_ip_source }}"
-          username: "{{ username }}"
-          password: "{{ password }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
         create:
           remoteSystem: {'id': "{{ create_remoteSystem['output']['create']['id'] }}"}
           srcResourceId: "{{ filesystem_storageResource_id_source['output']['get'][0]['storageResource']['id'] }}"
