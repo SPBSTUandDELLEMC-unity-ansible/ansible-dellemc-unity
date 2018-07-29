@@ -6,15 +6,15 @@
     - name: create remoteSystem
       remoteSystem:
         login:
-          unityIP: "{{ host }}"
-          username: "{{ username }}"
-          password: "{{ password }}"
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
         create:
           #all of the further parameters are required. DellEMC documentation lies:)
-          managementAddress: "{{ host2 }}"
-          remoteUsername: "{{ username }}"
-          remotePassword: "{{ password }}"
-          localUsername: "{{ username }}"
-          localPassword: "{{ password }}"
+          managementAddress: "{{ unity_ip_dest }}"
+          remoteUsername: "{{ unity_username }}"
+          remotePassword: "{{ unity_password }}"
+          localUsername: "{{ unity_username }}"
+          localPassword: "{{ unity_password }}"
       register: create_remoteSystem
     - debug: var=create_remoteSystem['output']
