@@ -6,11 +6,10 @@
     - name: Delete pool
       pool:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         delete:
           id: "{{ pool_id }}"
-
       register: result1
     - debug: var=result1['output']

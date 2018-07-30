@@ -6,7 +6,7 @@
     - name: Get nasServer id
       nasServer:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         get:
@@ -17,7 +17,7 @@
     - name: Create nfsServer
       nfsServer:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         create:

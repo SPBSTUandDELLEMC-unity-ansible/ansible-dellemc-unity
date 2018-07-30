@@ -3,27 +3,25 @@
   vars_files:
     - ../../group_vars/all
   tasks:
-    - name: get nasServer id
+    - name: get remotesystem id
       commonGetPost:
         login:
           unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         get:
-          resource_type: nasServer
+          resource_type: remoteSystem
           fields: id
       register: result1
     - debug: var=result1['output']
 
-    - name: Create fileInterface
-      fileInterface:
+    - name: delete remoteSystem
+      remoteSystem:
         login:
           unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
-        create:
-          nasServer: {id: "{{ result1['output']['get'][0]['id'] }}"}
-          ipPort: {id: "{{ fileInterface_ipPort }}"}
-          ipAddress: "{{ fileInterface_ipAddress }}"
-      register: result2
-    - debug: var=result2['output']
+        delete:
+          id: "{{ result1['output']['get'][1]['id'] }}"
+      register: delete_remoteSystem
+    - debug: var=delete_remoteSystem['output']

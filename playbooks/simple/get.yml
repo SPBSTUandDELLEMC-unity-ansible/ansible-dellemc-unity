@@ -3,15 +3,15 @@
   vars_files:
     - ../../group_vars/all
   tasks:
-    - name: Create pool
-      pool:
+    - name: get
+    #a simple example of a get request
+      commonGetPost:
         login:
           unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
-        createVSA:
-          name: "{{ pool_name }}"
-          addPoolUnitParameters: [{"poolUnit" : {"id" : "vdisk_1"}}, {"poolUnit" : {"id" : "vdisk_2"}}]
-
+        get:
+          resource_type: filesystem
+          fields: storageResource
       register: result1
     - debug: var=result1['output']

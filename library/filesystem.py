@@ -34,6 +34,10 @@ template = {
             constants.ACTION_TYPE: constants.ActionType.UPDATE,
             constants.PARAMETER_TYPES: parameters_all.get('create'),
             constants.DO_ACTION: 'createFilesystem'
+        },
+        'delete': {
+            constants.ACTION_TYPE: constants.ActionType.UPDATE,
+            constants.PARAMETER_TYPES: parameters_all.get('delete'),
         }
     }
 }

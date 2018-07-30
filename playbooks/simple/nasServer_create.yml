@@ -3,16 +3,28 @@
   vars_files:
     - ../../group_vars/all
   tasks:
+    - name: Get pool id
+      commonGetPost:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        get:
+          resource_type: pool
+          fields: id
+      register: get_pool
+    - debug: var=get_pool['output']
+
     - name: Create nasServer
       nasServer:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         create:
           name: "{{ nasServer_name }}"
-          homeSP: {id: "{{ homeSP_id }}"}
-          pool: {id: "{{ pool_id }}"}
+          homeSP: {id: "spa"}
+          pool: {id: "{{ get_pool['output']['get'][0]['id'] }}"}
       register: result1
     - debug: var=result1['output']
 

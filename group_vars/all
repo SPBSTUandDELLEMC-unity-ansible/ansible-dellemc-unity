@@ -1,7 +1,7 @@
 ######## Unity vars ########
 
-unity_host: 192.168.70.217
-unity_host2: 192.168.70.218
+unity_ip_source: 192.168.70.217
+unity_ip_dest: 192.168.70.218
 
 default_password: Password123#
 
@@ -31,4 +31,8 @@ iscsiPortal_netmask: 255.255.255.0
 
 fileInterface_ipPort: spa_eth0
 
-fileInterface_ipAddress: 192.168.70.222
+fileInterface_ipAddress: 192.168.70.223
+
+replicationInterface_ip_source: 192.168.70.227
+
+replicationInterface_ip_dest: 192.168.70.228
