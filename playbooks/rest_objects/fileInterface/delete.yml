@@ -1,0 +1,27 @@
+---
+- hosts: localhost
+  vars_files:
+    - ../../../group_vars/all
+  tasks:
+    - name: Get fileInterface
+      commonGetPost:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        get:
+          resource_type: fileInterface
+          fields: id
+      register: get_fileInterface_results
+    - debug: var=get_fileInterface_results['output']
+
+    - name: Delete fileInterface
+      fileInterface:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        delete:
+          id: "{{ get_fileInterface_results['output']['get'][0]['fileInterface']['id'] }}"
+      register: fileInterface_delete_results
+    - debug: var=fileInterface_delete_results['output']

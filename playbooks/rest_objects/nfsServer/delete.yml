@@ -1,0 +1,27 @@
+---
+- hosts: localhost
+  vars_files:
+    - ../../../group_vars/all
+  tasks:
+    - name: Get nfsServer
+      commonGetPost:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        get:
+          resource_type: nfsServer
+          fields: id
+      register: get_nfsServer_results
+    - debug: var=get_nfsServer_results['output']['get'][0]['id']
+
+    - name: Delete nfsServer
+      nfsServer:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        delete:
+          id: "{{ get_nfsServer_results['output']['get'][0]['id'] }}"
+      register: nfsServer_delete_results
+    - debug: var=nfsServer_delete_results['output']

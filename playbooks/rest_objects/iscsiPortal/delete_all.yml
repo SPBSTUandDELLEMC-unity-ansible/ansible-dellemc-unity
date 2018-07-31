@@ -1,0 +1,30 @@
+---
+- hosts: localhost
+  vars_files:
+    - ../../../group_vars/all
+  tasks:
+    - name: Get iscsiPortals id
+      commonGetPost:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        get:
+         resource_type: iscsiPortal
+         fields: id
+      register: get_iscsiPortals_results
+    - debug: var=get_iscsiPortals_results['output']['get']
+
+    - name: Delete iscsiPortals
+      iscsiPortal:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        delete:
+          id: "{{ item['id'] }}"
+
+      loop: "{{ get_iscsiPortals_results['output']['get'] }}"
+
+      register: delete_iscsiPortals_results
+    - debug: var=delete_iscsiPortals_results['results']

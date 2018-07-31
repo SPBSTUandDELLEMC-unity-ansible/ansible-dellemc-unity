@@ -1,0 +1,20 @@
+---
+- hosts: localhost
+  vars_files:
+    - ../../../group_vars/all
+  tasks:
+    - name: Create file system
+      filesystem:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        create:
+          name: "file_system_created_by_playbook"
+          fsParameters:
+            pool:  {id: pool_42}
+            nasServer: {id: nas_17}
+            size: 5368709120 # size 5 GB
+            supportedProtocols: 0
+      register: file_system_create_results
+    - debug: var=file_system_create_results['output']

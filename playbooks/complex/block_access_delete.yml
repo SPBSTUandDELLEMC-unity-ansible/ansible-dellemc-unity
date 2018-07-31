@@ -1,0 +1,4 @@
+---
+- import_playbook: ../iscsiInitiator_delete_all.yml
+- import_playbook: ../rest_objects/lun/delete_all.yml
+- import_playbook: ../rest_objects/iscsiPortal/delete_all.yml

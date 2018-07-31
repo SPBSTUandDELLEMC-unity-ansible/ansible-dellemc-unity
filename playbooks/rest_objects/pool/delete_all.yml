@@ -1,0 +1,29 @@
+---
+- hosts: localhost
+  vars_files:
+    - ../../../group_vars/all
+  tasks:
+    - name: Get pool
+      commonGetPost:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        get:
+          resource_type: pool
+          fields: id
+      register: get_pool_results
+    - debug: var=get_pool_results['output']
+
+    - name: Delete pool
+      pool:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        delete:
+          id: "{{ item['pool']['id'] }}"
+      loop: "{{ get_pool_results['output']['get'] }}"
+
+      register: delete_pool_results
+    - debug: var=delete_pool_results['output']

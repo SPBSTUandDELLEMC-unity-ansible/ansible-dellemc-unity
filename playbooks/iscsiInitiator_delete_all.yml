@@ -1,0 +1,30 @@
+---
+- hosts: localhost
+  vars_files:
+    - ../../group_vars/all
+  tasks:
+    - name: Get iscsiInitiator id
+      commonGetPost:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        get:
+         resource_type: iscsiInitiator
+         fields: id
+      register: get_iscsiInitiator_results
+    - debug: var=get_iscsiInitiator_results['output']['get']
+
+    - name: Delete iscsiInitiator
+      initiator:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        delete:
+          id: "{{ item['id'] }}"
+
+      loop: "{{ get_iscsiInitiator_results['output']['get'] }}"
+
+      register: delete_iscsiInitiator_results
+    - debug: var=delete_iscsiInitiator_results['results']

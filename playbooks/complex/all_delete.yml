@@ -1,0 +1,13 @@
+---
+#- import_playbook: block_replication_delete.yml
+#- import_playbook: file_replication_delete.yml
+
+- import_playbook: ../rest_objects/host/noAccess_delete_all.yml
+- import_playbook: ../rest_objects/host/readOnly_delete_all.yml
+- import_playbook: ../rest_objects/host/readWrite_delete_all.yml
+- import_playbook: ../rest_objects/host/rootAccess_delete_all.yml
+
+#- import_playbook: block_access_delete.yml
+- import_playbook: file_access_delete.yml
+
+- import_playbook: ../rest_objects/pool/delete_all.yml

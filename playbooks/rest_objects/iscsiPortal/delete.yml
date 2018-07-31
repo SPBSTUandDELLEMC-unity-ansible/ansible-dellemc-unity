@@ -1,16 +1,15 @@
 ---
 - hosts: localhost
   vars_files:
-    - ../../group_vars/all
+    - ../../../group_vars/all
   tasks:
-    - name: Get lun
-      commonGetPost:
+    - name: Delete iscsiPortal
+      iscsiPortal:
         login:
           unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
-        get:
-          resource_type: lun
-          fields: {name}
+        delete:
+          id: "{{ iscsiPortal_id }}"
       register: result1
-    - debug: var=result1
+    - debug: var=result1['output']

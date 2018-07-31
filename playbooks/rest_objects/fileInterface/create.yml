@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  vars_files:
+    - ../../../group_vars/all
+  tasks:
+    - name: Create fileInterface
+      fileInterface:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        create:
+          nasServer: {id: "{{ nasServer_id }}"}
+          ipPort: {id: "{{ fileInterface_ipPort }}"}
+          ipAddress: "{{ fileInterface_ipAddress }}"
+      register: result1
+    - debug: var=result1['output']
