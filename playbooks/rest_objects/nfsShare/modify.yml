@@ -6,7 +6,7 @@
     - name: Get nfsShare id
       commonGetPost:
         login:
-          host: "{{ unity_host }}"
+          host: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         get:
@@ -18,7 +18,7 @@
     - name: Get storageResource id
       commonGetPost:
         login:
-          host: "{{ unity_host }}"
+          host: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         get:
@@ -32,7 +32,7 @@
     - name: Modify nfsShare
       nfsShare:
         login:
-          host: "{{ unity_host }}"
+          host: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         modify:

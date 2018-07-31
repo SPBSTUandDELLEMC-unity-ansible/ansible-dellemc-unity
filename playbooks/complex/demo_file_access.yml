@@ -6,7 +6,7 @@
     - name: get disks
       virtualDisk:
        login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
        get:
@@ -17,7 +17,7 @@
     - name: Create pool
       pool:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         createVSA:
@@ -31,7 +31,7 @@
     - name: create Nas Server
       nasServer:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         create:
@@ -45,7 +45,7 @@
     - name: nfsServer creation
       nfsServer:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         create:
@@ -56,7 +56,7 @@
     - name: create fileInterface
       fileInterface:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         create:
@@ -66,10 +66,10 @@
       register: file_interface_create_results
     - debug: var=file_interface_create_results['output']
 
-    - name: create file system
+    - name: create filesystem
       filesystem:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         create:
@@ -85,7 +85,7 @@
     - name: create nfsShare
       nfsShare:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         create:

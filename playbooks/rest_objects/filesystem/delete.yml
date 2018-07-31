@@ -6,7 +6,7 @@
     - name: Get filesystem
       commonGetPost:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         get:
@@ -18,7 +18,7 @@
     - name: Delete filesystem
       filesystem:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         delete:

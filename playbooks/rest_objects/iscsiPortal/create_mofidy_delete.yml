@@ -6,7 +6,7 @@
     - name: Create iscsiPortal
       iscsiPortal:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         create:
@@ -19,7 +19,7 @@
     - name: Modify iscsiPortal
       iscsiPortal:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         modify:
@@ -31,7 +31,7 @@
     - name: Delete iscsiPortal
       iscsiPortal:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         delete:

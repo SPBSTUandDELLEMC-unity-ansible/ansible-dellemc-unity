@@ -6,7 +6,7 @@
     - name: Get iscsiPortals id
       commonGetPost:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         get:
@@ -18,7 +18,7 @@
     - name: Delete iscsiPortals
       iscsiPortal:
         login:
-          unityIP: "{{ unity_host }}"
+          unityIP: "{{ unity_ip_source }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         delete:
