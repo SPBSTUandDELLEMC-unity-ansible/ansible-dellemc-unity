@@ -41,6 +41,5 @@
             nasServer: {'id': "{{ result2['output']['get'][0]['id'] }}"}
             size: 3368709120 # size 3 GB
             supportedProtocols: 0
-          #replicationParameters: {'isReplicationDestination': true}
       register: create_file_system
     - debug: var=create_file_system['output']
