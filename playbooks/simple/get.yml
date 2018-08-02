@@ -3,8 +3,8 @@
   vars_files:
     - ../../group_vars/all
   tasks:
-    - name: get
     #a simple example of a get request
+    - name: get
       commonGetPost:
         login:
           unityIP: "{{ unity_ip_source }}"

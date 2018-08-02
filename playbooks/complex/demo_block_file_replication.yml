@@ -47,7 +47,7 @@
     - name: get lun storageResource id dest
       commonGetPost:
         login:
-          unityIP: "{{ unity_host2 }}"
+          unityIP: "{{ unity_ip_dest }}"
           username: "{{ unity_username }}"
           password: "{{ unity_password }}"
         get:

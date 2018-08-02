@@ -82,8 +82,8 @@
           remoteSystem: {'id': "{{ create_remoteSystem['output']['create']['id'] }}"}
           srcResourceId: "{{ nasServer_id_source['output']['get'][0]['id'] }}"
           dstResourceId: "{{ nasServer_id_dest['output']['get'][0]['id'] }}"
-          maxTimeOutOfSync: 5
           #max time to wait before sync
+          maxTimeOutOfSync: 5
       register: file_system_replication
     - debug: var=file_system_replication['output']
 
@@ -124,7 +124,7 @@
           remoteSystem: {'id': "{{ create_remoteSystem['output']['create']['id'] }}"}
           srcResourceId: "{{ storageResource_id_source['output']['get'][0]['storageResource']['id'] }}"
           dstResourceId: "{{ storageResource_id_dest['output']['get'][0]['storageResource']['id'] }}"
-          maxTimeOutOfSync: 5
           #max time to wait before sync
+          maxTimeOutOfSync: 5
       register: filesystem_replication
     - debug: var=filesystem_replication['output']
