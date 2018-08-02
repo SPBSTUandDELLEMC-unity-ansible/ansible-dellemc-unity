@@ -1,0 +1,31 @@
+---
+- hosts: localhost
+  vars_files:
+    - ../../../group_vars/all
+  tasks:
+    - name: Get nfsShare
+      commonGetPost:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        get:
+          resource_type: nfsShare
+          fields: id, readOnlyHosts
+      register: get_nfsShare_results
+    - debug: var=get_nfsShare_results['output']
+
+    - name: Delete readOnly hosts
+      host:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        delete:
+          id: "{{ item.1['id'] }}"
+      with_subelements:
+        - "{{ get_nfsShare_results['output']['get'] }}"
+        - "{{ 'readOnlyHosts' }}"
+
+      register: delete_readOnly_hosts_results
+    - debug: var=delete_readOnly_hosts_results['results']

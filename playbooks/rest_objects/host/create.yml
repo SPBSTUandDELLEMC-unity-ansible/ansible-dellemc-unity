@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  vars_files:
+    - ../../../group_vars/all
+  tasks:
+    - name: Create unity_ip_source
+      unity_ip_source:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        create:
+          type: "{{ unity_ip_source_type }}"
+          name: "{{ unity_ip_source_name }}"
+      register: result1
+    - debug: var=result1['output']

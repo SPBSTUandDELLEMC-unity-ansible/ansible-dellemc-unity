@@ -1,0 +1,30 @@
+---
+- hosts: localhost
+  vars_files:
+    - ../../../group_vars/all
+  tasks:
+    - name: Get lun id
+      commonGetPost:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        get:
+         resource_type: lun
+         fields: id
+      register: get_lun_results
+    - debug: var=get_lun_results['output']['get']
+
+    - name: Delete lun
+      lun:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        delete:
+          id: "{{ item['id'] }}"
+
+      loop: "{{ get_lun_results['output']['get'] }}"
+
+      register: delete_lun_results
+    - debug: var=delete_lun_results['results']

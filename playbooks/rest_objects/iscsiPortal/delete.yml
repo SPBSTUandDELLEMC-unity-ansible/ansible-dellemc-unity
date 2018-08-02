@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  vars_files:
+    - ../../../group_vars/all
+  tasks:
+    - name: Delete iscsiPortal
+      iscsiPortal:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        delete:
+          id: "{{ iscsiPortal_id }}"
+      register: result1
+    - debug: var=result1['output']

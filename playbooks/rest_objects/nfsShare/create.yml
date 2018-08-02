@@ -1,0 +1,31 @@
+---
+- hosts: localhost
+  vars_files:
+    - ../../../group_vars/all
+  tasks:
+    - name: Get filesystem id
+      commonGetPost:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        get:
+          resource_type: filesystem
+          fields: storageResource
+      register: result
+    - debug: var=result['output']['get'][0]['storageResource']['id']
+
+    - name: Create nfsShare
+      nfsShare:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        create:
+          storageResource: {'id': "{{ result['output']['get'][0]['storageResource']['id'] }}"}
+          name: "nfsShareTestPlaybook"
+          path: '/'
+      register: result1
+    - debug: var=result1['output']
+ 
+

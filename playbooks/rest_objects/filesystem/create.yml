@@ -1,0 +1,45 @@
+---
+- hosts: localhost
+  vars_files:
+    - ../../../group_vars/all
+  tasks:
+    - name: get pool id
+      commonGetPost:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        get:
+          resource_type: pool
+          fields: id
+      register: result1
+    - debug: var=result1['output']['get'][0]['id']
+
+    - name: get nasServer id
+      commonGetPost:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        get:
+          resource_type: nasServer
+          fields: id
+      register: result2
+    - debug: var=result2['output']['get'][0]['id']
+
+
+    - name: Create file system
+      filesystem:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        create:
+          name: "file_system_created_by_playbook"
+          fsParameters:
+            pool:  {'id': "{{ result1['output']['get'][0]['id'] }}"}
+            nasServer: {'id': "{{ result2['output']['get'][0]['id'] }}"}
+            size: 3368709120 # size 3 GB
+            supportedProtocols: 0
+      register: create_file_system
+    - debug: var=create_file_system['output']

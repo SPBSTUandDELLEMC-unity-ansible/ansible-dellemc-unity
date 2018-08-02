@@ -1,0 +1,29 @@
+---
+- hosts: localhost
+  vars_files:
+    - ../../../group_vars/all
+  tasks:
+    - name: Get filesystem
+      commonGetPost:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        get:
+          resource_type: filesystem
+          fields: id, storageResource
+      register: get_filesystem_results
+    - debug: var=get_filesystem_results['output']
+
+    - name: Delete filesystem
+      filesystem:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        delete:
+          id: "{{ item['storageResource']['id'] }}"
+      loop: "{{ get_filesystem_results['output']['get'] }}"
+
+      register: filesystem_delete_results
+    - debug: var=filesystem_delete_results['results']

@@ -1,0 +1,27 @@
+---
+- hosts: localhost
+  vars_files:
+    - ../../../group_vars/all
+  tasks:
+    - name: Get nasServer
+      commonGetPost:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        get:
+          resource_type: nasServer
+          fields: id
+      register: get_nasServer_results
+    - debug: var=get_nasServer_results['output']
+
+    - name: Delete nasServer
+      nasServer:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        delete:
+          id: "{{ get_nasServer_results['output']['get'][0]['id'] }}"
+      register: delete_nasServer_results
+    - debug: var=delete_nasServer_results['output']

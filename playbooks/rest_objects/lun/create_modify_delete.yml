@@ -1,0 +1,39 @@
+---
+- hosts: localhost
+  vars_files:
+    - ../../../group_vars/all
+  tasks:
+    - name: Create lun
+      lun:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        createLun:
+          name: "{{ lun_name }}"
+          lunParameters: {pool: {id: "{{ pool_id }}"}, "size": "{{ lun_size }}"}
+      register: result1
+    - debug: var=result1
+
+    - name: Modify lun
+      lun:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        modifyLun:
+          id: "{{ result1['output']['createLun']['storageResource']['id'] }}"
+          name: "modified_name_by_playbook"
+      register: result2
+    - debug: var=result2
+
+    - name: Delete lun
+      lun:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        delete:
+          id: "{{ result1['output']['createLun']['storageResource']['id'] }}"
+      register: result3
+    - debug: var=result3

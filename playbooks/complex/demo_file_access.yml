@@ -1,5 +1,7 @@
 ---
 - hosts: localhost
+  vars_files:
+    - ../../group_vars/all
   tasks:
     - name: get disks
       virtualDisk:
@@ -28,15 +30,15 @@
 
     - name: create Nas Server
       nasServer:
-         login:
-           unityIP: "{{ unity_ip_source }}"
-           username: "{{ unity_username }}"
-           password: "{{ unity_password }}"
-         create:
-           name: nasServerFromPlaybook
-           homeSP: {id: 'spa'}
-           pool:  {id: "{{ create_pool_results['output']['createVSA']['id'] }}"}
-           isMultiProtocolEnabled: false
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        create:
+          name: nasServerFromPlaybook
+          homeSP: {id: 'spa'}
+          pool:  {id: "{{ create_pool_results['output']['createVSA']['id'] }}"}
+          isMultiProtocolEnabled: false
       register: create_nas_server_results
     - debug: var=create_nas_server_results['output']
 
@@ -64,7 +66,7 @@
       register: file_interface_create_results
     - debug: var=file_interface_create_results['output']
 
-    - name: create file system
+    - name: create filesystem
       filesystem:
         login:
           unityIP: "{{ unity_ip_source }}"

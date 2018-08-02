@@ -1,0 +1,41 @@
+---
+- hosts: localhost
+  vars_files:
+    - ../../../group_vars/all
+  tasks:
+    - name: Get nfsShare
+      commonGetPost:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        get:
+          resource_type: nfsShare
+          fields: id, filesystem
+      register: get_nfsShare_results
+    - debug: var=get_nfsShare_results['output']
+
+    - name: Get filesystem's storageResource
+      commonGetPost:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        get:
+          resource_type: filesystem
+          id: "{{ get_nfsShare_results['output']['get'][0]['filesystem']['id'] }}"
+          fields: storageResource
+      register: get_storageResource_results
+    - debug: var=get_storageResource_results['output']
+
+    - name: Delete nfsShare
+      nfsShare:
+        login:
+          unityIP: "{{ unity_ip_source }}"
+          username: "{{ unity_username }}"
+          password: "{{ unity_password }}"
+        delete:
+          storageResource: { 'id': "{{ get_storageResource_results['output']['get']['storageResource']['id'] }}" }
+          nfsShare: { 'id': "{{ get_nfsShare_results['output']['get'][0]['id'] }}" }
+      register: delete_nfsShare_results
+    - debug: var=delete_nfsShare_results['output']
