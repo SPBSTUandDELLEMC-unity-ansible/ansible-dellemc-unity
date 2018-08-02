@@ -105,6 +105,6 @@ To delete a resource instance, you use an update option with the resource type, 
         unity_updates:
           - {resource_type: user, id: 'user_test1', action: 'delete'}
 
-To create a pool, you have to first run the action 'recommendAutoConfiguration', then create pools according to the recommendation, and later you can update the pool. The following three sample updates should be run in three tasks in sequence:
+To create a pool, first you have to run the action 'recommendAutoConfiguration', then create pools according to the recommendation, and later you can update the pool. The following three sample updates should be run in three tasks in sequence:
 
         unity_updates:
