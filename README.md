@@ -1,7 +1,3 @@
-#TODO:
-* расписать про два типа геттеров: универсальный и 
-через конкретный модуль
-
 ## EMC Unity Configuration and Management
 
 #### Requires:
@@ -9,8 +5,6 @@
 * Python module [dellemc-unity-sdk](https://github.com/ansible-dellemc-unity/dellemc-unity-sdk)
 
 This package of Ansible modules provides access to configure and manage EMC Unity storage appliance.
-
-жирный вступительный абзац
 
 #### Supported REST objects:
 
@@ -27,17 +21,13 @@ This package of Ansible modules provides access to configure and manage EMC Unit
 | pool             |    +    |    +    |    +    |    -    |
 | storageResource  |         |         |         |    -    |
 
-#### Available playbooks:
+#### Folder hierarchy:
 
+* folder `playbooks/rest_objects` contains simple actions with REST objects
+* folder `playbooks/getters` demonstrates get action 
+* folder `playbooks/complex` shows creating interconnected objects in a chain
 
- передача параметров от одного к другому
-* how to run from terminal TODO:::::::::::::::::::::::::::::::::::::!!!!!!!!!
-* `#ansible-playbook playbooks/examples/fileInterface_create_terminal_params.yml -e "host=192.168.70.217 username=admin password=Password123!" -c local`
-
-* folder `playbooks/simple` contains simple actions
-* folder `playbooks/tests` demonstrates all possible actions for the REST object
-* folder `playbooks/examples` shows creating interconnected objects in a chain
-
+#### How to run:
 
 To run tasks, change the option values to fit your system in group_vars/all or add they into terminal command, and then run:
 
@@ -50,7 +40,7 @@ the NTP server. Please wait until the Unity system comes back online before runn
 
 To cap the initial setup of Unity, here is the sample task in <ВСТАВЬ>.yml:
 
-    - name: Initial setup НАПИШИ ПЛЕЙБУК
+    - name: Initial setup WRITE PLAYBOOK
 
 The options 'unity_hostname', 'unity_username' and 'unity_password' are mandatory for every task using the 'dellemc_unity' module. 
 The task's other options does the following in the order presented below:
@@ -59,9 +49,9 @@ The task's other options does the following in the order presented below:
 2. Update the default password of the Unity system admin user;
 3. Upload license to Unity.
 
-For updating and querying the Unity system, please refer to the sample task in <ВСТАВЬ>.yml:
+For updating and querying the Unity system, please refer to the sample task in <ADD>.yml:
 
-    - name: НАПИСАТЬ ПЛЕЙБУК
+    - name: ADD NAME
     - name: Updates and queries
       dellemc_unity:
       unity_hostname: "192.168.0.202"
@@ -98,7 +88,7 @@ Password updates are distinct from other updates, because you can neither query 
 
 To delete a resource instance, you use an update option with the resource type, instance ID, and the action 'delete'. Here is the sample task in test-2.yml:
 
-    - name: НАПИСАТЬ ПЛЕЙБУК
+    - name: WRITE PLAYBOOK
     - name: Updates and queries
       dellemc_unity:
         unity_hostname: "192.168.0.202"
